@@ -47,7 +47,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SKQueueDelegate {
         icon!.isTemplate = true
         statusItem.image = icon
         statusItem.menu = statusMenu
-
+        
         // Check if the application can connect to the helper, or if the helper has to be updated with a newer version.
         // If the helper should be updated or installed, prompt the user to do so
         privilegedHelper.helperStatus { installed in
@@ -59,33 +59,41 @@ class AppDelegate: NSObject, NSApplicationDelegate, SKQueueDelegate {
 
         // register watchers to respond to changes in wireguard config/runtime state
         let queue = SKQueue(delegate: self)!
+        NSLog("Adding runtime state path to watch")
         queue.addPath(runPath)
         for configPath in configPaths {
+            NSLog("Adding configuration path \(configPath) to watch")
             queue.addPath(configPath)
         }
 
         // do an initial state update from current configuration and runtime state
         DispatchQueue.global(qos: .background).async {
+            NSLog("Loading configuration")
             self.loadConfiguration()
+            NSLog("Loading state")
             self.loadState()
+            NSLog("Building menu")
             DispatchQueue.main.async { self.buildMenu() }
         }
     }
 
     func applicationWillTerminate(_: Notification) {
 //        TODO: configurable option to disable tunnels on shutdown
+        NSLog("Telling Helper to shutdown")
         let xpcService = privilegedHelper.helperConnection()?.remoteObjectProxyWithErrorHandler { error -> Void in
             print("XPCService error: %@", error)
         } as? HelperProtocol
-
         xpcService?.shutdown()
     }
 
     // handle incoming file/directory change events
     func receivedNotification(_ notification: SKQueueNotification, path: String, queue _: SKQueue) {
-        print("\(notification.toStrings().map { $0.rawValue }) @ \(path)")
+        
+        NSLog("Received notification \(notification.toStrings().map { $0.rawValue }) @ \(path)")
         if path == runPath {
+            NSLog("Reloading state")
             loadState()
+            NSLog("Rebuilding menu")
             DispatchQueue.main.async { self.buildMenu() }
         }
     }
@@ -101,12 +109,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, SKQueueDelegate {
 
             if !tunnel.connected {
                 xpcService?.tunnelUp(interface: tunnel.interface, reply: { exitStatus in
-                    print("Tunnel \(tunnelId) up exit status: \(exitStatus)")
+                    NSLog("Tunnel \(tunnelId) up exit status: \(exitStatus)")
                 })
 
             } else {
                 xpcService?.tunnelDown(interface: tunnel.interface, reply: { exitStatus in
-                    print("Tunnel \(tunnelId) down exit status: \(exitStatus)")
+                    NSLog("Tunnel \(tunnelId) down exit status: \(exitStatus)")
                 })
             }
         } else {
