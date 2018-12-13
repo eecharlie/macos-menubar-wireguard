@@ -156,33 +156,42 @@ func loadConfiguration() -> Tunnels {
             if !configFile.hasSuffix(".conf") {
                 continue
             }
-            NSLog("Reading config file: \(configPath)/\(configFile)")
+
             let interface = configFile.replacingOccurrences(of: ".conf", with: "")
 
-            tunnels[interface] = Tunnel(
-                interface: interface,
-                connected: false,
-                address: "",
-                peers: []
-            )
-
-            // determine if config file can be read
-            if let ini = try? INIParser(configPath + "/" + configFile) {
-                let config = ini.sections
-                if !config.isEmpty {
-                    // TODO: currently supports only one peer, need to pick a different method for parsing config
-                    tunnels[interface]!.peers = [Peer(
-                        endpoint: config["Peer"]!["Endpoint"]!,
-                        allowedIps: config["Peer"]!["AllowedIPs"]!.split(separator: ",").map {
-                            $0.trimmingCharacters(in: .whitespaces)
-                        }
-                    )]
-                    tunnels[interface]!.address = config["Interface"]!["Address"]!
-                }
-            }
+            NSLog("Reading config file: \(configPath)/\(configFile)")
+            var tunnel = parseConfig(configFilePath: configPath + "/" + configFile)
+            tunnel.interface = interface
+            tunnels[interface] = tunnel
         }
     }
     return tunnels
+}
+
+func parseConfig(configFilePath: String) -> Tunnel {
+    var tunnel = Tunnel(
+        interface: "",
+        connected: false,
+        address: "",
+        peers: []
+    )
+
+    // determine if config file can be read
+    // if let ini = try? INIParser(configFilePath) {
+    //     let config = ini.sections
+    //     if !config.isEmpty {
+    //         // TODO: currently supports only one peer, need to pick a different method for parsing config
+    //         tunnel.peers = [Peer(
+    //             endpoint: config["Peer"]!["Endpoint"]!,
+    //             allowedIps: config["Peer"]!["AllowedIPs"]!.split(separator: ",").map {
+    //                 $0.trimmingCharacters(in: .whitespaces)
+    //             }
+    //         )]
+    //         tunnel.address = config["Interface"]!["Address"]!
+    //     }
+    // }
+
+    return tunnel
 }
 
 // contruct menu with all tunnels found in configuration

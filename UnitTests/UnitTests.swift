@@ -57,6 +57,26 @@ class UnitTests: XCTestCase {
         XCTAssertEqual(menu.items[0].title, "A Tunnel Name: ")
     }
 
+    func testConfigParsing() {
+        let bundle = Bundle(for: type(of: self).self)
+        let testConfig = bundle.path(forResource: "test", ofType: "conf")!
+        XCTAssertNotNil(testConfig)
+
+        let tunnel = parseConfig(configFilePath: testConfig))
+        XCTAssertEqual(tunnel.interface, "test")
+        XCTAssertEqual(tunnel.address, "10.10.101.123/24")
+    }
+
+    func testConfigParsing2() {
+        let bundle = Bundle(for: type(of: self).self)
+        let testConfig = bundle.path(forResource: "wg0", ofType: "conf")!
+        XCTAssertNotNil(testConfig)
+
+        let tunnel = parseConfig(configFilePath: testConfig))
+        XCTAssertEqual(tunnel.interface, "wg0")
+        XCTAssertEqual(tunnel.address, "10.10.101.123/24")
+    }
+
 //    func testPerformanceExample() {
 //        // This is an example of a performance test case.
 //        measure {
