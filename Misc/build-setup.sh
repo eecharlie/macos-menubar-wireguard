@@ -18,9 +18,9 @@ type brew >/dev/null || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercon
 # 1) unlink imagemagick if already installed & wrong version
 type convert >/dev/null && ( convert --version | grep 7.0.8-9 || brew unlink imagemagick )
 # 2) install older version using hard link to git commit
-brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/17141e5dce0c42f9490467ed9eb204fd8e178f4c/Formula/imagemagick.rb
+brew info imagemagick | grep 7.0.8-9 || brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/17141e5dce0c42f9490467ed9eb204fd8e178f4c/Formula/imagemagick.rb
 # 3) link if installed and not linked
-convert --version | grep 7.0.8-9 || brew link imagemagick
+convert --version | grep 7.0.8-9 || brew switch imagemagick 7.0.8-9
 
 # Invoke Brewfile in top-level dir to install remaining dependencies available from Homebrew
 cd "${0%/*}/../" && brew bundle
