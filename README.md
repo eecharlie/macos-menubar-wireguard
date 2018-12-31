@@ -11,6 +11,7 @@ This is a macOS statusbar item (aka menubar icon) for WireGuard.
 - Sit in your menubar
 - Indicate if tunnels are enabled
 - Bring tunnel up/down via one click
+- This fork has changes to streamline use with [Mullvad VPN](https://mullvad.net)
 
 # Installation
 
