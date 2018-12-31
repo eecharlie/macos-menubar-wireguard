@@ -1,3 +1,4 @@
+[![Maintainability](https://api.codeclimate.com/v1/badges/0192a3dc06d9c270913e/maintainability)](https://codeclimate.com/github/eecharlie/macos-menubar-wireguard/maintainability)
 [![Build Status](https://travis-ci.org/aequitas/macos-menubar-wireguard.svg?branch=master)](https://travis-ci.org/eecharlie/macos-menubar-wireguard)
 
 This is a macOS statusbar item (aka menubar icon) for WireGuard.
