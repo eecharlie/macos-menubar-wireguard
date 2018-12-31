@@ -1,9 +1,8 @@
-[![Maintainability](https://api.codeclimate.com/v1/badges/66efb09de55fafe897e0/maintainability)](https://codeclimate.com/github/aequitas/macos-menubar-wireguard/maintainability)
-[![Build Status](https://travis-ci.org/aequitas/macos-menubar-wireguard.svg?branch=master)](https://travis-ci.org/aequitas/macos-menubar-wireguard)
+[![Build Status](https://travis-ci.org/aequitas/macos-menubar-wireguard.svg?branch=master)](https://travis-ci.org/eecharlie/macos-menubar-wireguard)
 
-This is a macOS statusbar item (aka menubar icon) that wraps wg-quick.
+This is a macOS statusbar item (aka menubar icon) for WireGuard.
 
-![Screenshot](Misc/demo.png)
+<img src=Misc/demo.png width="400">
 
 
 # Features
@@ -11,17 +10,16 @@ This is a macOS statusbar item (aka menubar icon) that wraps wg-quick.
 - Sit in your menubar
 - Indicate if tunnels are enabled
 - Bring tunnel up/down via one click
-- ~~Fail miserably when brew/wg-quick is not installed or permissions on files are incorrect~~
 
 # Installation
 
-- Follow the instruction to install WireGuard for macOS: https://www.wireguard.com/install/
-- Create a tunnel configuration file (eg: `/usr/local/etc/wireguard/utun1.conf`)
-- Download this App from [Releases](https://github.com/aequitas/macos-menubar-wireguard/releases)
-- Open the .dmg and copy the Application to where you like (eg: '/Applications')
-- The next bit is needed because I don't have a Apple Developer account to properly sign the binary. If you don't like it consider building and signing the application yourself.
-    - Start the App and get a dialog indicating the app is not signed
-    - Go to: Preferences->Security & Privacy->General and click "Open Anyway"
+- Download this App from [Releases](https://github.com/eecharlie/macos-menubar-wireguard/releases)
+- Open the .dmg and 
+- run Mullvad-Setup to install WireGuard and configure with your Mullvad account, _or_ 
+- run Setup to _just_ install WireGuard dependencies, then 
+- copy the Application to where you like (eg: '/Applications')
+- Start the App and get a dialog indicating the app is not signed
+- Go to: Preferences->Security & Privacy->General and click "Open Anyway"
 
 # Building & Testing
 
@@ -65,18 +63,7 @@ This software as a whole is licensed under GPL-3.0
 
 # Todo/Readmap
 
-- Tunnel connectivity status
-- read configuration using `wg`
-- Bundle WireGuard (wireguard-go/wg-quick/bash4)/Drop `wg-quick` for custom route creations (to drop bash4 as requirements and enable advances routing options like excluding local networks from 0.0.0.0/0).
-- Preferences
+- (see parent of this fork)
 - Recent tunnels on top option
 - Active tunnels on top option
-- Tunnel configuration augmentation (groups, alt. names, etc)
-- Configuration editor
-- Key management (via keychain)
-- Start tunnels at startup
-- Add application to startup items
-- More tunnel statistics (privilegedhelper)
-- Help menu
-- Developer ID signing
-- Update checking
+- Show ping results for recently-used servers
