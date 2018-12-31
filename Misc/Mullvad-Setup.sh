@@ -13,15 +13,14 @@ ARGS=( "$@" )
 SELF="${BASH_SOURCE[0]}"
 [[ $SELF == */* ]] || SELF="./$SELF"
 SELF="$(cd "${SELF%/*}" && pwd -P)/${SELF##*/}"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 [[ ${BASH_VERSINFO[0]} -ge 4 ]] || die "bash ${BASH_VERSINFO[0]} detected, when bash 4+ required"
 
 # This is a hack, requiring this script to *not* be run as root to work correctly.
 if [[ "$UID" -ne "0" ]]
 then
-	./setup.sh
-	exec sudo -p "[?] $PROGRAM must be run as root. Please enter the password for %u to continue: " -- "$BASH" -- "$SELF" "${ARGS[@]}"
-else
-	echo "[!] Running as root; you must run as non-privileged user for auto-dependency installation."
+	"$DIR/Setup"
+	exec sudo -p "[?] $PROGRAM must run as root to write Wireguard config files. Please enter the password for %u to continue: " -- "$BASH" -- "$SELF" "${ARGS[@]}"
 fi
 
 type wg >/dev/null || die "Please install wireguard-tools and then try again."
@@ -94,4 +93,7 @@ done
 chmod o+r /etc/wireguard
 
 echo "[+] Success. Now install/run WireGuard StatusBar and menu will auto-populate."
-echo "Please wait up to 60 seconds for your public key to be added to the servers."
+echo "[+] Please wait up to 60 seconds for your public key to be added to the servers."
+echo "[+] You may close this window.
+
+"

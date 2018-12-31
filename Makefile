@@ -84,6 +84,8 @@ ${dist}/WireGuardStatusbar.app: ${build_dest}/WireGuardStatusbar.app Misc/Uninst
 	rm -rf "${@D}/"; mkdir -p "${@D}/"
 	ln -sf /Applications "${@D}/Applications"
 	cp Misc/Uninstall.sh "${@D}/Uninstall"
+	cp Misc/Mullvad-Setup.sh "${@D}/Mullvad-Setup"
+	cp Misc/Setup "${@D}/Setup"
 	rm -rf "$@" && cp -r "$<" "$@"
 
 # Generate archive build (this excludes debug symbols (dSYM) which are in a release build)
