@@ -16,9 +16,9 @@ type brew >/dev/null || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercon
 
 # Imagemagick 7.0.8-9 must be used to avoid bug in floodfill. Homebrew can be brute-forced to specific version:
 # 1) unlink imagemagick if already installed & wrong version
-type convert >/dev/null || convert --version | grep 7.0.8-9 || brew unlink imagemagick
+type convert >/dev/null && ( convert --version | grep 7.0.8-9 || brew unlink imagemagick )
 # 2) install older version using hard link to git commit
-brew info imagemagick | grep 7.0.8-9 || brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/17141e5dce0c42f9490467ed9eb204fd8e178f4c/Formula/imagemagick.rb
+brew install https://raw.githubusercontent.com/Homebrew/homebrew-core/17141e5dce0c42f9490467ed9eb204fd8e178f4c/Formula/imagemagick.rb
 # 3) link if installed and not linked
 convert --version | grep 7.0.8-9 || brew link imagemagick
 
