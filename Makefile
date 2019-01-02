@@ -13,9 +13,9 @@ swift_sources=$(shell find * -name "*.swift"|grep -vE 'SKQueue|INIParse')
 other_sources=$(shell find * -name "*.plist") WireGuardStatusbar.xcodeproj/project.pbxproj
 sources=${swift_sources} ${other_sources}
 
-# without argument make will run all tests and checks, build a distributable image and install the app in /Applications
+# without argument make will run all tests and checks, build a distributable image
 .PHONY: all
-all: test dist install
+all: test dist
 
 ## Testing & Code quality
 
